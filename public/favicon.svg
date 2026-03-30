@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background -->
+  <rect width="32" height="32" rx="9" fill="#0d1929"/>
+  <rect width="32" height="32" rx="9" fill="none" stroke="#ffc8dd" stroke-opacity="0.18" stroke-width="1"/>
+
+  <!-- Cat ears (left) -->
+  <polygon points="7,14 5,6 12,10.5" fill="#ffc8dd"/>
+  <polygon points="7.5,13 6.5,7.5 11,10.5" fill="#ff8fab"/>
+
+  <!-- Cat ears (right) -->
+  <polygon points="25,14 27,6 20,10.5" fill="#ffc8dd"/>
+  <polygon points="24.5,13 25.5,7.5 21,10.5" fill="#ff8fab"/>
+
+  <!-- Face circle -->
+  <circle cx="16" cy="19" r="10.8" fill="#fff0f3"/>
+  <circle cx="16" cy="19" r="10.8" fill="none" stroke="#ffc8dd" stroke-width="0.6"/>
+
+  <!-- Blush cheeks -->
+  <ellipse cx="9.8" cy="22.5" rx="2.6" ry="1.5" fill="#ffb3c6" opacity="0.55"/>
+  <ellipse cx="22.2" cy="22.5" rx="2.6" ry="1.5" fill="#ffb3c6" opacity="0.55"/>
+
+  <!-- Left eye: normal kawaii eye -->
+  <circle cx="12" cy="18.5" r="2.8" fill="#1a1a2e"/>
+  <circle cx="13.1" cy="17.4" r="1.1" fill="white"/>
+  <circle cx="12.2" cy="19.2" r="0.45" fill="white" opacity="0.65"/>
+
+  <!-- Right eye: MAGNIFYING GLASS (察 = inspect/watch) -->
+  <!-- Lens fill -->
+  <circle cx="20.5" cy="18" r="3.6" fill="#0c2040"/>
+  <!-- Fund chart trend inside lens (K线/基金走势) -->
+  <polyline points="18,19.8 19.2,18.6 20.4,19.1 22,17.2" stroke="#ff4d4f" stroke-width="0.95" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Tiny candlestick bars behind the line -->
+  <rect x="17.7" y="19.2" width="0.9" height="1.4" rx="0.25" fill="#3dba6b" opacity="0.7"/>
+  <rect x="19.8" y="18.8" width="0.9" height="1.0" rx="0.25" fill="#ff4d4f" opacity="0.7"/>
+  <!-- Chart dot at tip -->
+  <circle cx="22" cy="17.2" r="0.7" fill="#388bfd"/>
+  <!-- Lens ring border (blue = finance accent) -->
+  <circle cx="20.5" cy="18" r="3.6" fill="none" stroke="#388bfd" stroke-width="1.25"/>
+
+  <!-- Magnifying glass handle -->
+  <line x1="23.3" y1="21" x2="25.8" y2="23.5" stroke="#ffc8dd" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <ellipse cx="16" cy="21.5" rx="1.1" ry="0.75" fill="#ff8fab"/>
+
+  <!-- Cat mouth (W shape) -->
+  <path d="M13.5 23.3 Q14.5 24.8 16 23.8 Q17.5 24.8 18.5 23.3" stroke="#cc3366" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

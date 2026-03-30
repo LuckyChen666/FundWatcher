@@ -1,0 +1,89 @@
+:root {
+  /* Finance dark design system */
+  --bg-base:        #060d1a;
+  --bg-surface:     #0d1929;
+  --bg-surface-2:   #111f35;
+  --bg-surface-3:   #162540;
+  --border-subtle:  rgba(56, 139, 214, 0.12);
+  --border-default: rgba(56, 139, 214, 0.22);
+  --border-strong:  rgba(56, 139, 214, 0.40);
+
+  --accent:         #388bfd;
+  --accent-dim:     rgba(56, 139, 214, 0.15);
+  --accent-hover:   #4c9aff;
+
+  --text-primary:   #e6edf3;
+  --text-secondary: #adbac7;
+  --text-muted:     #768390;
+
+  --up:             #ff4d4f;
+  --up-dim:         rgba(255, 77, 79, 0.12);
+  --down:           #3dba6b;
+  --down-dim:       rgba(61, 186, 107, 0.12);
+  --neutral:        #e6edf3;
+
+  font-family: 'Inter', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.2;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--bg-surface-2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+button:hover {
+  border-color: var(--accent);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
