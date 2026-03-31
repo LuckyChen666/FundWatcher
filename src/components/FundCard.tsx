@@ -71,12 +71,21 @@ export function FundCard({ fund, onRemove, layoutMode, otherGroups, onMoveFund, 
 
   const handleExpand = async () => {
     if (!expanded && holdings.length === 0) {
+      setExpanded(true) // 先展开，显示加载状态
       setLoading(true)
-      const data = await fetchTopHoldings(fund.code)
-      setHoldings(data)
-      setLoading(false)
+      try {
+        const data = await fetchTopHoldings(fund.code)
+        console.log(`[FundCard] 获取基金 ${fund.code} 重仓股:`, data)
+        setHoldings(data)
+      } catch (error) {
+        console.error(`[FundCard] 获取重仓股失败:`, error)
+        setHoldings([])
+      } finally {
+        setLoading(false)
+      }
+    } else {
+      setExpanded(!expanded)
     }
-    setExpanded(!expanded)
   }
 
   useEffect(() => {
@@ -250,7 +259,10 @@ export function FundCard({ fund, onRemove, layoutMode, otherGroups, onMoveFund, 
           {expanded && (
             <div className="holdings">
               {loading ? (
-                <p className="loading">加载中...</p>
+                <div className="loading-container">
+                  <div className="loading-spinner"></div>
+                  <p className="loading-text">正在获取前10重仓股...</p>
+                </div>
               ) : holdings.length > 0 ? (
                 <table>
                   <thead>
