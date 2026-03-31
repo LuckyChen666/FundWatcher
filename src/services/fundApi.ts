@@ -49,9 +49,15 @@ function runNextFundJsonpTask() {
 
   const finish = (result: Fund | null) => {
     clearTimeout(timer)
-    delete (window as unknown as Record<string, unknown>)[cbName]
-    if (typeof prevCallback === 'function') {
-      ;(window as unknown as Record<string, unknown>)[cbName] = prevCallback
+    // 安全地恢复或清理回调（避免在严格模式下 delete 报错）
+    try {
+      if (typeof prevCallback === 'function') {
+        ;(window as unknown as Record<string, unknown>)[cbName] = prevCallback
+      } else {
+        ;(window as unknown as Record<string, unknown>)[cbName] = undefined
+      }
+    } catch (e) {
+      console.warn('[runNextFundJsonpTask] cleanup callback failed:', e)
     }
     if (script.parentNode) script.parentNode.removeChild(script)
     fundJsonpRunning = false
@@ -92,10 +98,15 @@ function fetchEastmoneyByScript(code: string): Promise<string | null> {
 
     const cleanup = () => {
       if (script.parentNode) script.parentNode.removeChild(script)
-      if (prevApiData === undefined) {
-        delete (window as unknown as Record<string, unknown>).apidata
-      } else {
-        ;(window as unknown as Record<string, unknown>).apidata = prevApiData
+      // 安全地恢复或清理 apidata（避免在严格模式下 delete 报错）
+      try {
+        if (prevApiData === undefined) {
+          ;(window as unknown as Record<string, unknown>).apidata = undefined
+        } else {
+          ;(window as unknown as Record<string, unknown>).apidata = prevApiData
+        }
+      } catch (e) {
+        console.warn('[fetchEastmoneyByScript] cleanup apidata failed:', e)
       }
       clearTimeout(timer)
     }
@@ -145,7 +156,12 @@ export function searchFunds(keyword: string): Promise<FundSearchResult[]> {
 
     const cleanup = () => {
       clearTimeout(timer)
-      delete (window as unknown as Record<string, unknown>)[cbName]
+      // 安全地清理回调（避免在严格模式下 delete 报错）
+      try {
+        ;(window as unknown as Record<string, unknown>)[cbName] = undefined
+      } catch (e) {
+        console.warn('[searchFunds] cleanup callback failed:', e)
+      }
       if (script.parentNode) script.parentNode.removeChild(script)
     }
 
