@@ -312,6 +312,7 @@ export async function fetchTopHoldings(code: string): Promise<TopHolding[]> {
     // 匹配 <tr> 行：序号 | 股票代码 | 股票名称 | 占净值比 | 持股数 | 持仓市值
     const rowRegex = /<tr[^>]*>[\s\S]*?<\/tr>/gi
     const rows = html.match(rowRegex) || []
+    console.log(`[fetchTopHoldings] 基金 ${code} 找到 ${rows.length} 行数据`)
 
     for (const row of rows) {
       // 跳过表头
@@ -325,10 +326,17 @@ export async function fetchTopHoldings(code: string): Promise<TopHolding[]> {
         cells.push(m[1].replace(/<[^>]+>/g, '').trim())
       }
 
-      // 实际列顺序：序号(0) 代码(1) 名称(2) 最新价(3) 涨跌幅(4) 相关资讯(5) 占净值比例(6) 持股数(7) 持仓市值(8)
-      if (cells.length < 7) continue
+      // 列顺序根据季度报表不同有两种格式：
+      // 最新季度(9列): 序号(0) 代码(1) 名称(2) 最新价(3) 涨跌幅(4) 相关资讯(5) 占净值比例(6) 持股数(7) 持仓市值(8)
+      // 往期季度(7列): 序号(0) 代码(1) 名称(2) 相关资讯(3) 占净值比例(4) 持股数(5) 持仓市值(6)
+      if (cells.length < 6) continue
 
-      const ratio = cells[6].replace('%', '')
+      const is9Column = cells.length >= 9
+      const ratioIndex = is9Column ? 6 : 4
+      const sharesIndex = is9Column ? 7 : 5
+      const valueIndex = is9Column ? 8 : 6
+
+      const ratio = cells[ratioIndex].replace('%', '')
       if (!cells[1] || !cells[2] || isNaN(Number(ratio))) continue
 
       // 从 href 中提取 secid，如 "1.600519"、"116.00700"
@@ -339,8 +347,8 @@ export async function fetchTopHoldings(code: string): Promise<TopHolding[]> {
         stockCode: cells[1],
         stockName: cells[2],
         ratio,
-        shares: cells[7] || '0',
-        value: cells[8] || '0',
+        shares: cells[sharesIndex] || '0',
+        value: cells[valueIndex] || '0',
         changePercent: undefined,
         _secid: secid,
       } as TopHolding & { _secid: string })
@@ -349,9 +357,11 @@ export async function fetchTopHoldings(code: string): Promise<TopHolding[]> {
     }
 
     if (holdings.length === 0) {
-      console.warn('Holdings: no rows parsed from HTML')
+      console.warn(`[fetchTopHoldings] 基金 ${code} 未解析到任何持仓数据`)
       return []
     }
+
+    console.log(`[fetchTopHoldings] 基金 ${code} 成功解析 ${holdings.length} 只股票`)
 
     // 批量获取实时涨跌幅（腾讯行情接口）
     const qqCodesMap = new Map<string, string>() // qqCode → stockCode
